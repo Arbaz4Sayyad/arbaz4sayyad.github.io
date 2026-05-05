@@ -2,7 +2,7 @@
 
 A premium, FAANG-level professional portfolio designed for high impact, featuring a modern glassmorphism aesthetic, dynamic GSAP animations, and a fully responsive experience. 
 
-[![Portfolio Preview](https://img.shields.io/badge/Portfolio-Live-teal?style=for-the-badge&logo=googlechrome&logoColor=white)](https://arbaz4sayyad.github.io/MyPortfolio/)
+[![Portfolio Preview](https://img.shields.io/badge/Portfolio-Live-teal?style=for-the-badge&logo=googlechrome&logoColor=white)](https://arbaz4sayyad.github.io/)
 [![GitHub](https://img.shields.io/badge/GitHub-Profile-black?style=for-the-badge&logo=github)](https://github.com/Arbaz4Sayyad)
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-blue?style=for-the-badge&logo=linkedin)](https://www.linkedin.com/in/arbaz-sayyad)
 
@@ -46,7 +46,7 @@ To run this project locally, you only need a modern web browser.
 ### Installation
 1. Clone the repository:
    ```bash
-   git clone https://github.com/Arbaz4Sayyad/MyPortfolio.git
+   git clone https://github.com/Arbaz4Sayyad/arbaz4sayyad.github.io.git
    ```
 2. Navigate to the project directory:
    ```bash
