@@ -451,10 +451,10 @@
                   class="px-5 py-2.5 bg-slate-900 dark:bg-slate-800 text-white rounded-xl text-sm font-bold hover:scale-105 transition-transform flex items-center gap-2">
                   <i class="fab fa-github"></i> GitHub
                 </a>
-                <a href="https://www.youtube.com/watch?v=zL0VAtUWPLA" target="_blank" rel="noopener noreferrer"
+                <button onclick="openVideoModal('ai-meeting-video')"
                   class="px-5 py-2.5 bg-primary/10 text-primary border border-primary/20 rounded-xl text-sm font-bold hover:bg-primary/20 transition-all flex items-center gap-2">
                   <i class="fas fa-play-circle"></i> Demo Video
-                </a>
+                </button>
               </div>
             </div>
           </div>
@@ -497,10 +497,10 @@
                   class="px-5 py-2.5 bg-slate-900 dark:bg-slate-800 text-white rounded-xl text-sm font-bold hover:scale-105 transition-transform flex items-center gap-2">
                   <i class="fab fa-github"></i> GitHub
                 </a>
-                <a href="https://www.youtube.com/watch?v=_s7NamTMXsw" target="_blank" rel="noopener noreferrer"
+                <button onclick="openVideoModal('linkmagic-video')"
                   class="px-5 py-2.5 bg-primary/10 text-primary border border-primary/20 rounded-xl text-sm font-bold hover:bg-primary/20 transition-all flex items-center gap-2">
                   <i class="fas fa-play-circle"></i> Demo Video
-                </a>
+                </button>
               </div>
             </div>
           </div>
@@ -1543,12 +1543,69 @@
 
     <!-- Video Modals -->
 
+    <!-- YouTube Modal: AI Meeting Notes -->
+    <div class="video-modal" id="ai-meeting-video">
+      <div class="relative w-[90%] max-w-4xl">
+        <button onclick="closeVideoModal('ai-meeting-video')" class="close-video">&times;</button>
+        <div class="video-container">
+          <iframe
+            id="ai-meeting-iframe"
+            width="100%"
+            height="100%"
+            src=""
+            data-src="https://www.youtube.com/embed/zL0VAtUWPLA?autoplay=1"
+            title="AI Meeting Notes Demo"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerpolicy="strict-origin-when-cross-origin"
+            allowfullscreen>
+          </iframe>
+        </div>
+        <div class="mt-4 text-center">
+          <a href="https://www.youtube.com/watch?v=zL0VAtUWPLA" target="_blank" rel="noopener noreferrer"
+            class="inline-flex items-center gap-2 px-4 py-2 bg-white/10 hover:bg-white/20 text-white rounded-lg text-sm font-medium transition-all">
+            <i class="fab fa-youtube"></i> Watch on YouTube
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- YouTube Modal: Link-Magic URL Shortener -->
+    <div class="video-modal" id="linkmagic-video">
+      <div class="relative w-[90%] max-w-4xl">
+        <button onclick="closeVideoModal('linkmagic-video')" class="close-video">&times;</button>
+        <div class="video-container">
+          <iframe
+            id="linkmagic-iframe"
+            width="100%"
+            height="100%"
+            src=""
+            data-src="https://www.youtube.com/embed/_s7NamTMXsw?autoplay=1"
+            title="Link-Magic URL Shortener Demo"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerpolicy="strict-origin-when-cross-origin"
+            allowfullscreen>
+          </iframe>
+        </div>
+        <div class="mt-4 text-center">
+          <a href="https://www.youtube.com/watch?v=_s7NamTMXsw" target="_blank" rel="noopener noreferrer"
+            class="inline-flex items-center gap-2 px-4 py-2 bg-white/10 hover:bg-white/20 text-white rounded-lg text-sm font-medium transition-all">
+            <i class="fab fa-youtube"></i> Watch on YouTube
+          </a>
+        </div>
+      </div>
+    </div>
+
 
     <div class="video-modal" id="foodies-video">
       <div class="relative w-[90%] max-w-4xl">
         <button onclick="closeVideoModal('foodies-video')" class="close-video">&times;</button>
         <div class="video-container">
-          <iframe src="https://drive.google.com/file/d/1MKTG0K-Msn98wtnfRDeN2f40fF8ryWcW/preview" title="Foodies Demo"
+          <iframe
+            src=""
+            data-src="https://drive.google.com/file/d/1MKTG0K-Msn98wtnfRDeN2f40fF8ryWcW/preview"
+            title="Foodies Demo"
             allow="autoplay; encrypted-media"></iframe>
         </div>
         <div class="mt-4 text-center">
@@ -1563,8 +1620,11 @@
       <div class="relative w-[90%] max-w-4xl">
         <button onclick="closeVideoModal('ellison-video')" class="close-video">&times;</button>
         <div class="video-container">
-          <iframe src="https://drive.google.com/file/d/1NgrKjzRKydkXtfPCIZwWRFL659pOpHXa/preview"
-            title="Ellison Electronics Demo" allow="autoplay; encrypted-media"></iframe>
+          <iframe
+            src=""
+            data-src="https://drive.google.com/file/d/1NgrKjzRKydkXtfPCIZwWRFL659pOpHXa/preview"
+            title="Ellison Electronics Demo"
+            allow="autoplay; encrypted-media"></iframe>
         </div>
         <div class="mt-4 text-center">
           <a href="https://drive.google.com/file/d/1NgrKjzRKydkXtfPCIZwWRFL659pOpHXa/view" target="_blank"
@@ -1578,7 +1638,10 @@
       <div class="relative w-[90%] max-w-4xl">
         <button onclick="closeVideoModal('memories-video')" class="close-video">&times;</button>
         <div class="video-container">
-          <iframe src="https://drive.google.com/file/d/1NaR0m4uLxJ579O_WMY4MTAEd8vHl5R6y/preview" title="Memories Demo"
+          <iframe
+            src=""
+            data-src="https://drive.google.com/file/d/1NaR0m4uLxJ579O_WMY4MTAEd8vHl5R6y/preview"
+            title="Memories Demo"
             allow="autoplay; encrypted-media"></iframe>
         </div>
         <div class="mt-4 text-center">

@@ -104,16 +104,28 @@ document.addEventListener("DOMContentLoaded", () => {
     // 5. Video Modal Logic
     window.openVideoModal = (id) => {
       const modal = document.getElementById(id);
+      // Lazy-load: only set the src when the modal is actually opened
+      const iframe = modal.querySelector('iframe');
+      if (iframe && iframe.dataset.src && !iframe.src) {
+        iframe.src = iframe.dataset.src;
+      }
       modal.style.display = 'flex';
-      gsap.from(modal.querySelector('.relative'), { scale: 0.8, opacity: 0, duration: 0.4 });
+      document.body.style.overflow = 'hidden';
+      gsap.from(modal.querySelector('.relative'), { scale: 0.8, opacity: 0, duration: 0.4, ease: 'back.out(1.4)' });
     };
 
     window.closeVideoModal = (id) => {
       const modal = document.getElementById(id);
-      modal.style.display = 'none';
-      // Reset iframe to stop video
-      const iframe = modal.querySelector('iframe');
-      if (iframe) iframe.src = iframe.src;
+      gsap.to(modal.querySelector('.relative'), {
+        scale: 0.85, opacity: 0, duration: 0.25, ease: 'power2.in',
+        onComplete: () => {
+          modal.style.display = 'none';
+          document.body.style.overflow = '';
+          // Blank the src to fully stop video playback (works for YouTube & Drive)
+          const iframe = modal.querySelector('iframe');
+          if (iframe) iframe.src = '';
+        }
+      });
     };
 
     document.querySelectorAll('.video-modal').forEach(modal => {
