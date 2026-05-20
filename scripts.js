@@ -104,10 +104,12 @@ document.addEventListener("DOMContentLoaded", () => {
     // 5. Video Modal Logic
     window.openVideoModal = (id) => {
       const modal = document.getElementById(id);
-      // Lazy-load: only set the src when the modal is actually opened
+      // Lazy-load: use getAttribute to get the LITERAL attribute value (not browser-resolved URL).
+      // iframe.src (DOM property) always returns an absolute URL even when src="", so !iframe.src
+      // was always false. getAttribute('src') correctly returns the raw "" string.
       const iframe = modal.querySelector('iframe');
-      if (iframe && iframe.dataset.src && !iframe.src) {
-        iframe.src = iframe.dataset.src;
+      if (iframe && iframe.dataset.src && iframe.getAttribute('src') === '') {
+        iframe.setAttribute('src', iframe.dataset.src);
       }
       modal.style.display = 'flex';
       document.body.style.overflow = 'hidden';
@@ -121,9 +123,10 @@ document.addEventListener("DOMContentLoaded", () => {
         onComplete: () => {
           modal.style.display = 'none';
           document.body.style.overflow = '';
-          // Blank the src to fully stop video playback (works for YouTube & Drive)
+          // Use setAttribute so the literal attribute value becomes "" again,
+          // allowing openVideoModal to correctly detect it next time.
           const iframe = modal.querySelector('iframe');
-          if (iframe) iframe.src = '';
+          if (iframe) iframe.setAttribute('src', '');
         }
       });
     };
