@@ -320,3 +320,466 @@ section {
   0%   { background-position: -200% 0; }
   100% { background-position:  200% 0; }
 }
+
+/* ===================================================
+   ENGINEERING PORTFOLIO SECTION STYLES
+   =================================================== */
+
+/* ── Tab Navigation ── */
+.ep-tab-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1.25rem;
+  border-radius: 9999px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  border: 2px solid transparent;
+  background: rgba(255,255,255,0.7);
+  color: #64748b;
+  transition: all 0.25s ease;
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+}
+
+.dark .ep-tab-btn {
+  background: rgba(15, 23, 42, 0.7);
+  color: #94a3b8;
+}
+
+.ep-tab-btn:hover {
+  border-color: #0d9488;
+  color: #0d9488;
+  transform: translateY(-2px);
+}
+
+.ep-tab-btn.active {
+  background: #0d9488;
+  color: #ffffff;
+  border-color: #0d9488;
+  box-shadow: 0 8px 24px -6px rgba(13, 148, 136, 0.45);
+}
+
+/* ── Tab Panel ── */
+.ep-tab-panel {
+  animation: ep-fade-in 0.35s ease;
+}
+
+.ep-tab-panel.hidden {
+  display: none;
+}
+
+@keyframes ep-fade-in {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Architecture Cards ── */
+.ep-arch-card {
+  transition: transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+              box-shadow 0.35s ease;
+}
+
+.ep-arch-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 28px 60px -12px rgba(13, 148, 136, 0.2);
+}
+
+.ep-arch-metric {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: #475569;
+  padding: 0.5rem 0.75rem;
+  background: rgba(13, 148, 136, 0.05);
+  border-radius: 0.5rem;
+  border-left: 3px solid rgba(13, 148, 136, 0.3);
+}
+
+.dark .ep-arch-metric {
+  color: #94a3b8;
+  background: rgba(13, 148, 136, 0.08);
+}
+
+/* ── Challenge Cards ── */
+.ep-challenge-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 0.875rem 1rem;
+  background: rgba(13, 148, 136, 0.04);
+  border: 1px solid rgba(13, 148, 136, 0.12);
+  border-radius: 0.875rem;
+  transition: all 0.25s ease;
+}
+
+.ep-challenge-card:hover {
+  background: rgba(13, 148, 136, 0.09);
+  border-color: rgba(13, 148, 136, 0.3);
+  transform: translateX(4px);
+}
+
+.dark .ep-challenge-card {
+  background: rgba(13, 148, 136, 0.07);
+  border-color: rgba(13, 148, 136, 0.18);
+}
+
+/* ── Blog Cards ── */
+.ep-blog-card {
+  position: relative;
+  transition: transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+              box-shadow 0.35s ease;
+}
+
+.ep-blog-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 28px 60px -12px rgba(13, 148, 136, 0.2);
+}
+
+.ep-blog-num {
+  font-family: 'Outfit', sans-serif;
+  font-size: 4rem;
+  font-weight: 900;
+  line-height: 1;
+  color: rgba(13, 148, 136, 0.08);
+  margin-bottom: -1.5rem;
+  letter-spacing: -0.05em;
+}
+
+/* ── Interview Cards ── */
+.ep-interview-card {
+  transition: transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+              box-shadow 0.35s ease;
+}
+
+.ep-interview-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 24px 50px -10px rgba(13, 148, 136, 0.18);
+}
+
+.ep-q-preview {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: #475569;
+  background: rgba(241, 245, 249, 0.8);
+  border-radius: 0.5rem;
+}
+
+.dark .ep-q-preview {
+  color: #94a3b8;
+  background: rgba(30, 41, 59, 0.6);
+}
+
+/* ── Tech Tags ── */
+.ep-tech-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.25rem 0.625rem;
+  background: rgba(241, 245, 249, 0.9);
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  border-radius: 9999px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: #475569;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.dark .ep-tech-tag {
+  background: rgba(30, 41, 59, 0.8);
+  border-color: rgba(51, 65, 85, 0.8);
+  color: #94a3b8;
+}
+
+/* ── Primary & Secondary Buttons ── */
+.ep-primary-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1.25rem;
+  background: #0d9488;
+  color: #ffffff;
+  border-radius: 0.875rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  border: none;
+  text-decoration: none;
+}
+
+.ep-primary-btn:hover {
+  background: #0f766e;
+  transform: scale(1.04);
+  box-shadow: 0 8px 24px -6px rgba(13, 148, 136, 0.4);
+}
+
+.ep-primary-btn:active {
+  transform: scale(0.97);
+}
+
+.ep-secondary-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1.25rem;
+  background: transparent;
+  color: #0d9488;
+  border: 2px solid rgba(13, 148, 136, 0.4);
+  border-radius: 0.875rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  text-decoration: none;
+}
+
+.ep-secondary-btn:hover {
+  background: rgba(13, 148, 136, 0.08);
+  border-color: #0d9488;
+  transform: scale(1.04);
+}
+
+/* ── Pitch Cards ── */
+.ep-pitch-card {
+  padding: 1.25rem 1.5rem;
+  background: rgba(248, 250, 252, 0.8);
+  border-radius: 1rem;
+}
+
+.dark .ep-pitch-card {
+  background: rgba(15, 23, 42, 0.6);
+}
+
+/* ── Bullet Groups ── */
+.ep-bullet-group {
+  padding: 1.25rem;
+  border-radius: 1rem;
+  background: rgba(248, 250, 252, 0.7);
+  border: 1px solid rgba(226, 232, 240, 0.6);
+}
+
+.dark .ep-bullet-group {
+  background: rgba(15, 23, 42, 0.5);
+  border-color: rgba(51, 65, 85, 0.5);
+}
+
+.ep-bullet-label {
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 0.75rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  display: inline-block;
+}
+
+.ep-bullet-label.teal {
+  background: rgba(13, 148, 136, 0.12);
+  color: #0d9488;
+}
+
+.ep-bullet-label.blue {
+  background: rgba(59, 130, 246, 0.12);
+  color: #3b82f6;
+}
+
+.ep-bullet-label.amber {
+  background: rgba(245, 158, 11, 0.12);
+  color: #d97706;
+}
+
+.ep-bullet-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.625rem;
+  font-size: 0.85rem;
+  color: #475569;
+  line-height: 1.6;
+}
+
+.dark .ep-bullet-item {
+  color: #94a3b8;
+}
+
+/* ── EP Modal ── */
+.ep-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(2, 6, 23, 0.92);
+  z-index: 9998;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 2rem 1rem;
+  overflow-y: auto;
+  backdrop-filter: blur(10px);
+}
+
+.ep-modal.open {
+  display: flex;
+}
+
+.ep-modal-box {
+  position: relative;
+  width: 100%;
+  max-width: 800px;
+  background: #ffffff;
+  border-radius: 1.5rem;
+  overflow: hidden;
+  box-shadow: 0 40px 120px -20px rgba(0, 0, 0, 0.6);
+  margin: auto;
+  animation: ep-modal-in 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.dark .ep-modal-box {
+  background: #0f172a;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+@keyframes ep-modal-in {
+  from { opacity: 0; transform: scale(0.9) translateY(20px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.ep-modal-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 2.25rem;
+  height: 2.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.08);
+  border-radius: 50%;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  z-index: 10;
+  border: none;
+  color: #475569;
+}
+
+.dark .ep-modal-close {
+  background: rgba(255, 255, 255, 0.1);
+  color: #94a3b8;
+}
+
+.ep-modal-close:hover {
+  background: rgba(13, 148, 136, 0.15);
+  color: #0d9488;
+  transform: rotate(90deg);
+}
+
+.ep-modal-body {
+  padding: 2.5rem;
+  max-height: 80vh;
+  overflow-y: auto;
+  color: #1e293b;
+  line-height: 1.7;
+  font-size: 0.9rem;
+}
+
+.dark .ep-modal-body {
+  color: #cbd5e1;
+}
+
+.ep-modal-body h2 {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 800;
+  font-size: 1.5rem;
+  color: #0f172a;
+  margin-bottom: 0.5rem;
+}
+
+.dark .ep-modal-body h2 {
+  color: #f1f5f9;
+}
+
+.ep-modal-body h3 {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: #0d9488;
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.ep-modal-body p {
+  margin-bottom: 0.75rem;
+}
+
+.ep-modal-body ul {
+  list-style: disc;
+  padding-left: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.ep-modal-body li {
+  margin-bottom: 0.375rem;
+}
+
+.ep-modal-body code {
+  background: rgba(13, 148, 136, 0.1);
+  color: #0d9488;
+  padding: 0.125rem 0.375rem;
+  border-radius: 0.25rem;
+  font-size: 0.82rem;
+  font-family: monospace;
+}
+
+.ep-modal-body pre {
+  background: #0f172a;
+  color: #e2e8f0;
+  padding: 1.25rem;
+  border-radius: 0.875rem;
+  font-size: 0.8rem;
+  overflow-x: auto;
+  margin: 1rem 0;
+  font-family: monospace;
+  line-height: 1.7;
+}
+
+.dark .ep-modal-body pre {
+  background: #020617;
+}
+
+.ep-modal-body .ep-modal-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  background: rgba(13, 148, 136, 0.12);
+  color: #0d9488;
+  margin-bottom: 1rem;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .ep-tab-btn {
+    padding: 0.5rem 0.875rem;
+    font-size: 0.7rem;
+  }
+
+  .ep-modal-body {
+    padding: 1.5rem;
+  }
+}
