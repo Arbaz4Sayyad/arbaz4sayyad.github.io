@@ -139,9 +139,118 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
+    // 5b. Interactive In-Page Resume Modal Logic
+    const resumeModal = document.getElementById('resumeModal');
+    const resumeModalCard = document.getElementById('resumeModalCard');
+    const resumeIframe = document.getElementById('resumeIframe');
+    const resumeIframeLoader = document.getElementById('resumeIframeLoader');
+
+    window.openResumeModal = () => {
+      if (!resumeModal) return;
+
+      // Lazy load iframe src
+      if (resumeIframe) {
+        if (!resumeIframe.getAttribute('src') && resumeIframe.dataset.src) {
+          if (resumeIframeLoader) {
+            resumeIframeLoader.style.display = 'flex';
+            resumeIframeLoader.style.opacity = '1';
+          }
+          resumeIframe.setAttribute('src', resumeIframe.dataset.src);
+          resumeIframe.onload = () => {
+            if (resumeIframeLoader) {
+              resumeIframeLoader.style.opacity = '0';
+              setTimeout(() => {
+                resumeIframeLoader.style.display = 'none';
+              }, 300);
+            }
+          };
+        }
+      }
+
+      resumeModal.classList.remove('hidden');
+      resumeModal.classList.add('flex');
+      document.body.style.overflow = 'hidden';
+
+      // Animate modal entry
+      requestAnimationFrame(() => {
+        resumeModal.classList.remove('opacity-0');
+        resumeModal.classList.add('opacity-100');
+        if (resumeModalCard) {
+          resumeModalCard.classList.remove('scale-95', 'opacity-0');
+          resumeModalCard.classList.add('scale-100', 'opacity-100');
+        }
+      });
+    };
+
+    window.closeResumeModal = () => {
+      if (!resumeModal) return;
+
+      resumeModal.classList.remove('opacity-100');
+      resumeModal.classList.add('opacity-0');
+      if (resumeModalCard) {
+        resumeModalCard.classList.remove('scale-100', 'opacity-100');
+        resumeModalCard.classList.add('scale-95', 'opacity-0');
+      }
+
+      setTimeout(() => {
+        resumeModal.classList.remove('flex');
+        resumeModal.classList.add('hidden');
+        document.body.style.overflow = '';
+      }, 300);
+    };
+
+    window.downloadOrPrintResume = async () => {
+      const pdfUrl = 'https://arbaz4sayyad.github.io/resume/Arbaz_Sayyad_Software_Engineer_Backend_Resume.pdf';
+      const downloadBtn = document.getElementById('resumeDownloadBtn');
+      const originalText = downloadBtn ? downloadBtn.innerHTML : '';
+
+      if (downloadBtn) {
+        downloadBtn.innerHTML = '<i class="fas fa-circle-notch fa-spin text-[11px]"></i> <span>Downloading...</span>';
+      }
+
+      try {
+        const response = await fetch(pdfUrl);
+        if (!response.ok) throw new Error('Network response was not ok');
+        const blob = await response.blob();
+        const blobUrl = window.URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = blobUrl;
+        link.download = 'Arbaz_Sayyad_Software_Engineer_Backend_Resume.pdf';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        setTimeout(() => window.URL.revokeObjectURL(blobUrl), 1000);
+      } catch (err) {
+        console.warn('Direct blob download failed, falling back to hidden iframe/link:', err);
+        const link = document.createElement('a');
+        link.href = pdfUrl;
+        link.download = 'Arbaz_Sayyad_Software_Engineer_Backend_Resume.pdf';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      } finally {
+        if (downloadBtn) {
+          setTimeout(() => {
+            downloadBtn.innerHTML = originalText || '<i class="fas fa-download text-[11px]"></i> <span>Download / Print</span>';
+          }, 600);
+        }
+      }
+    };
+
+    if (resumeModal) {
+      resumeModal.addEventListener('click', (e) => {
+        if (e.target === resumeModal) {
+          closeResumeModal();
+        }
+      });
+    }
+
     // Close on Escape key
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') {
+            if (resumeModal && !resumeModal.classList.contains('hidden')) {
+                closeResumeModal();
+            }
             document.querySelectorAll('.video-modal').forEach(modal => {
                 if (modal.style.display === 'flex') {
                     closeVideoModal(modal.id);
