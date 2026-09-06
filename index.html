@@ -2478,16 +2478,25 @@
         <!-- Right: Actions -->
         <div class="flex items-center gap-2 sm:gap-3 shrink-0">
           <a href="https://arbaz4sayyad.github.io/resume/" target="_blank" rel="noopener noreferrer"
-             class="inline-flex items-center gap-2 px-3 sm:px-4 py-2 rounded-xl bg-slate-800/90 hover:bg-slate-700/90 text-slate-200 hover:text-white text-xs font-semibold border border-slate-700/70 hover:border-slate-600 transition-all shadow-sm">
+             class="inline-flex items-center gap-2 px-3 sm:px-4 py-2 rounded-xl bg-slate-800/90 hover:bg-slate-700/90 text-slate-200 hover:text-white text-xs font-semibold border border-slate-700/70 hover:border-slate-600 transition-all shadow-sm"
+             title="Open in new browser tab">
             <i class="fas fa-arrow-up-right-from-square text-[11px]"></i>
             <span class="hidden sm:inline">Open in New Tab</span>
             <span class="sm:hidden">Open</span>
           </a>
 
-          <button id="resumeDownloadBtn" onclick="downloadOrPrintResume()"
-             class="inline-flex items-center gap-2 px-3.5 sm:px-4 py-2 rounded-xl bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white text-xs font-semibold shadow-md hover:shadow-indigo-500/25 transition-all cursor-pointer">
+          <button id="resumePrintBtn" onclick="printResume()"
+             class="inline-flex items-center gap-2 px-3 sm:px-4 py-2 rounded-xl bg-slate-800/90 hover:bg-slate-700/90 text-slate-200 hover:text-white text-xs font-semibold border border-slate-700/70 hover:border-slate-600 transition-all shadow-sm cursor-pointer"
+             title="Print Resume">
+            <i class="fas fa-print text-[11px]"></i>
+            <span>Print</span>
+          </button>
+
+          <button id="resumeDownloadBtn" onclick="downloadResume()"
+             class="inline-flex items-center gap-2 px-3.5 sm:px-4 py-2 rounded-xl bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white text-xs font-semibold shadow-md hover:shadow-indigo-500/25 transition-all cursor-pointer"
+             title="Download Resume PDF">
             <i class="fas fa-download text-[11px]"></i>
-            <span>Download / Print</span>
+            <span>Download PDF</span>
           </button>
 
           <button onclick="closeResumeModal()" aria-label="Close modal"

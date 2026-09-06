@@ -23,6 +23,7 @@ export default function ResumeModal({
 }) {
   const [isLoading, setIsLoading] = useState(true);
   const [isDownloading, setIsDownloading] = useState(false);
+  const [isPrinting, setIsPrinting] = useState(false);
   const iframeRef = useRef(null);
   const modalContentRef = useRef(null);
 
@@ -49,7 +50,7 @@ export default function ResumeModal({
   }, [isOpen, handleKeyDown]);
 
   // Handle direct file download
-  const handleDownloadOrPrint = async () => {
+  const handleDownload = async () => {
     setIsDownloading(true);
     try {
       const response = await fetch(pdfDownloadUrl);
@@ -74,6 +75,76 @@ export default function ResumeModal({
     } finally {
       setTimeout(() => setIsDownloading(false), 600);
     }
+  };
+
+  // Handle printing resume
+  const handlePrint = async () => {
+    setIsPrinting(true);
+    const cleanup = () => setIsPrinting(false);
+
+    // 1. Try seamless hidden iframe printing via Blob
+    try {
+      const response = await fetch(pdfDownloadUrl);
+      if (!response.ok) throw new Error("Failed to fetch PDF for printing");
+      const blob = await response.blob();
+      const blobUrl = window.URL.createObjectURL(blob);
+
+      const printFrame = document.createElement('iframe');
+      printFrame.style.position = 'fixed';
+      printFrame.style.right = '0';
+      printFrame.style.bottom = '0';
+      printFrame.style.width = '0';
+      printFrame.style.height = '0';
+      printFrame.style.border = '0';
+      printFrame.src = blobUrl;
+      document.body.appendChild(printFrame);
+
+      printFrame.onload = () => {
+        setTimeout(() => {
+          try {
+            printFrame.contentWindow.focus();
+            printFrame.contentWindow.print();
+          } catch (err) {
+            console.warn("Iframe print error, opening tab fallback:", err);
+            const printWin = window.open(blobUrl, '_blank');
+            if (printWin) {
+              printWin.onload = () => {
+                try { printWin.print(); } catch (_) {}
+              };
+            }
+          }
+          cleanup();
+          setTimeout(() => {
+            try {
+              document.body.removeChild(printFrame);
+              window.URL.revokeObjectURL(blobUrl);
+            } catch (_) {}
+          }, 60000);
+        }, 450);
+      };
+      return;
+    } catch (err) {
+      console.warn("Blob print failed, attempting iframe or window fallback:", err);
+    }
+
+    // 2. Fallback: Try visible modal iframe print
+    try {
+      if (iframeRef.current && iframeRef.current.contentWindow) {
+        iframeRef.current.contentWindow.focus();
+        iframeRef.current.contentWindow.print();
+        cleanup();
+        return;
+      }
+    } catch (err) {
+      console.warn("Direct iframe print failed:", err);
+    }
+
+    // 3. Fallback: Open in new window
+    const printWindow = window.open(pdfDownloadUrl || resumeUrl, '_blank');
+    if (printWindow) {
+      printWindow.focus();
+    }
+    cleanup();
   };
 
   // Handle backdrop click
@@ -139,10 +210,36 @@ export default function ResumeModal({
               <span className="sm:hidden">Open</span>
             </a>
 
-            {/* Download / Print Button */}
+            {/* Print Button */}
             <button
               type="button"
-              onClick={handleDownloadOrPrint}
+              onClick={handlePrint}
+              disabled={isPrinting}
+              className="inline-flex items-center gap-2 px-3 sm:px-4 py-2 rounded-xl bg-slate-800/90 hover:bg-slate-700/90 disabled:opacity-75 text-slate-200 hover:text-white text-xs font-semibold border border-slate-700/70 hover:border-slate-600 transition-all shadow-sm cursor-pointer"
+              title="Print Resume"
+            >
+              {isPrinting ? (
+                <>
+                  <svg className="w-3.5 h-3.5 animate-spin" fill="none" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  </svg>
+                  <span>Preparing...</span>
+                </>
+              ) : (
+                <>
+                  <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4H7v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
+                  </svg>
+                  <span>Print</span>
+                </>
+              )}
+            </button>
+
+            {/* Download PDF Button */}
+            <button
+              type="button"
+              onClick={handleDownload}
               disabled={isDownloading}
               className="inline-flex items-center gap-2 px-3.5 sm:px-4 py-2 rounded-xl bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 disabled:opacity-75 text-white text-xs font-semibold shadow-md hover:shadow-indigo-500/25 transition-all cursor-pointer"
               title="Download Resume PDF"
@@ -160,7 +257,7 @@ export default function ResumeModal({
                   <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
                   </svg>
-                  <span>Download / Print</span>
+                  <span>Download PDF</span>
                 </>
               )}
             </button>

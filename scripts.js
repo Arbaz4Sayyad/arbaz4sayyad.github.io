@@ -199,7 +199,90 @@ document.addEventListener("DOMContentLoaded", () => {
       }, 300);
     };
 
-    window.downloadOrPrintResume = async () => {
+    window.printResume = async () => {
+      const printBtn = document.getElementById('resumePrintBtn');
+      const originalText = printBtn ? printBtn.innerHTML : '';
+      const pdfUrl = 'https://arbaz4sayyad.github.io/resume/Arbaz_Sayyad_Software_Engineer_Backend_Resume.pdf';
+      const resumeIframe = document.getElementById('resumeIframe');
+
+      if (printBtn) {
+        printBtn.innerHTML = '<i class="fas fa-circle-notch fa-spin text-[11px]"></i> <span>Preparing...</span>';
+        printBtn.style.pointerEvents = 'none';
+      }
+
+      const cleanup = () => {
+        if (printBtn) {
+          printBtn.innerHTML = originalText || '<i class="fas fa-print text-[11px]"></i> <span>Print</span>';
+          printBtn.style.pointerEvents = '';
+        }
+      };
+
+      // 1. Try seamless hidden iframe printing via Blob
+      try {
+        const response = await fetch(pdfUrl);
+        if (!response.ok) throw new Error('Failed to fetch PDF for printing');
+        const blob = await response.blob();
+        const blobUrl = window.URL.createObjectURL(blob);
+
+        const printFrame = document.createElement('iframe');
+        printFrame.style.position = 'fixed';
+        printFrame.style.right = '0';
+        printFrame.style.bottom = '0';
+        printFrame.style.width = '0';
+        printFrame.style.height = '0';
+        printFrame.style.border = '0';
+        printFrame.src = blobUrl;
+        document.body.appendChild(printFrame);
+
+        printFrame.onload = () => {
+          setTimeout(() => {
+            try {
+              printFrame.contentWindow.focus();
+              printFrame.contentWindow.print();
+            } catch (err) {
+              console.warn('Iframe print error, opening tab fallback:', err);
+              const printWin = window.open(blobUrl, '_blank');
+              if (printWin) {
+                printWin.onload = () => {
+                  try { printWin.print(); } catch (_) {}
+                };
+              }
+            }
+            cleanup();
+            setTimeout(() => {
+              try {
+                document.body.removeChild(printFrame);
+                window.URL.revokeObjectURL(blobUrl);
+              } catch (_) {}
+            }, 60000);
+          }, 450);
+        };
+        return;
+      } catch (err) {
+        console.warn('Blob print failed, attempting iframe or window fallback:', err);
+      }
+
+      // 2. Fallback: Try visible modal iframe print
+      try {
+        if (resumeIframe && resumeIframe.contentWindow) {
+          resumeIframe.contentWindow.focus();
+          resumeIframe.contentWindow.print();
+          cleanup();
+          return;
+        }
+      } catch (err) {
+        console.warn('Direct resume iframe print blocked by CORS:', err);
+      }
+
+      // 3. Fallback: Open in new window
+      const printWindow = window.open(pdfUrl, '_blank');
+      if (printWindow) {
+        printWindow.focus();
+      }
+      cleanup();
+    };
+
+    window.downloadResume = async () => {
       const pdfUrl = 'https://arbaz4sayyad.github.io/resume/Arbaz_Sayyad_Software_Engineer_Backend_Resume.pdf';
       const downloadBtn = document.getElementById('resumeDownloadBtn');
       const originalText = downloadBtn ? downloadBtn.innerHTML : '';
@@ -221,7 +304,7 @@ document.addEventListener("DOMContentLoaded", () => {
         document.body.removeChild(link);
         setTimeout(() => window.URL.revokeObjectURL(blobUrl), 1000);
       } catch (err) {
-        console.warn('Direct blob download failed, falling back to hidden iframe/link:', err);
+        console.warn('Direct blob download failed, falling back to direct link:', err);
         const link = document.createElement('a');
         link.href = pdfUrl;
         link.download = 'Arbaz_Sayyad_Software_Engineer_Backend_Resume.pdf';
@@ -231,11 +314,14 @@ document.addEventListener("DOMContentLoaded", () => {
       } finally {
         if (downloadBtn) {
           setTimeout(() => {
-            downloadBtn.innerHTML = originalText || '<i class="fas fa-download text-[11px]"></i> <span>Download / Print</span>';
+            downloadBtn.innerHTML = originalText || '<i class="fas fa-download text-[11px]"></i> <span>Download PDF</span>';
           }, 600);
         }
       }
     };
+
+    // Alias for backward compatibility
+    window.downloadOrPrintResume = window.downloadResume;
 
     if (resumeModal) {
       resumeModal.addEventListener('click', (e) => {
